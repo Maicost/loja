@@ -4,8 +4,8 @@ class Conexao {
 
 	private $host = 'localhost';
 	private $dbname = 'loja';
-	private $user = 'root';
-	private $pass = '';
+	private $user = 'admin';
+	private $pass = '1';
 
 	public function conectar() {
 		try {
