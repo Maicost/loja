@@ -1,0 +1,19 @@
+/*LINKS E MENUS*/
+
+/*MENU PRINCIPAL DA INDEX.PHP*/
+#menu-index a {
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+/*MENU PRINCIPAL DE PRODUTOS.PHP*/
+/*!!!!!!!embora o uso de classes esteja sendo usado, ainda assim é necessário 
+utilizar seletores mais específicos para que os atributos sejam aplicados com 
+prioridade em relação as classes do bootstrap!!!!!!*/
+header nav ul.menu li a {	
+	text-transform: uppercase;
+	font-size: 12px !important;
+	font-weight: 400;
+}
+

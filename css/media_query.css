@@ -1,0 +1,14 @@
+/*DISPOSITIVOS EXTRA PEQUENOS E PEQUENOS*/
+@media (min-width: 768px) {
+	#sm-search, #sm-login, #sm-cart, #sm-logo, #sm-menu-dropdown {
+		display: none;
+	}
+}
+
+/*DISPOSITIVOS MÉDIOS E GRANDES*/
+@media (max-width: 767px) {
+	#topo, #md-logo, #md-search, #md-cart_login, #md-menu-dropdown, #md-menu {
+		display: none !important;
+	}
+
+}

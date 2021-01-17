@@ -1,0 +1,65 @@
+/*EMAIL*/
+footer h6.text-center {
+	margin-top: 25px;
+	font-size: 14px;
+}
+
+/*TITULOS DOS MENUS*/
+footer h5 {
+	margin-top: 50px;
+}
+
+/*NAV DO MENU*/
+footer ul.menu-nav {
+	margin-top: 20px;
+	/*margin-left: -30px;*/
+	list-style: none;
+}
+
+/*AJUSTES MENUS RODAPÉ*/
+footer ul.menu-nav li a {
+	color: #000;
+	text-decoration: none;
+}
+
+/*HOVER MENUS RODAPÉ*/
+footer ul.menu-nav li a:hover {
+	color: #121734;
+}
+
+/*COPYRIGHT*/
+footer small {
+	font-size: 12px !important;
+	font-weight: bold !important;
+}
+
+/*BOTÃO DE CONTATO*/
+footer a.btn-contact {
+	text-decoration: none;
+	letter-spacing: 1px;
+	padding: 12px 26px;
+	color: #fff;
+	background-color: #121734;
+	border-radius: 23px;
+}
+
+/*HOVER BOTÃO DE CONTATO*/
+footer a.btn-contact:hover {
+	color: #121737;
+	border: 1px solid #121734;
+	background-color: #fff;
+	transition: .3s;
+}
+
+/*HOVER DOS ÍCONES*/
+.fa-facebook:hover {
+	color: #3b5998;
+}
+
+.fa-instagram:hover {
+	color: #DD2A7B;
+}
+
+.fa-whatsapp:hover {
+	color: #25d366;
+}

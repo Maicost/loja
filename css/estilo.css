@@ -1,0 +1,193 @@
+/*RESET CSS*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+strike, strong, sub, sup, tt, var,
+b, u, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body, html {
+	line-height: 1;
+	height: 100%;
+	overflow-x: hidden !important;
+	font-family: "Lato", arial, verdana, sans-serif;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/*FIM DO RESET CSS*/
+
+/*DEFINIÇÕES GERAIS*/
+
+header {
+	padding-bottom: 5px;
+	background: #41295a;
+	/*background: -webkit-linear-gradient(to top, #41295a, #2F0743);
+	background: linear-gradient(to top, #41295a, #2F0743);
+	*/
+}
+
+small {
+	font-size: 12px;
+}
+
+label {
+	text-transform: uppercase;
+	font-size: 12px;
+	color: #000;
+	font-weight: 500;
+}
+
+input:focus {
+	outline-color: none !important;
+	box-shadow: none !important;
+	border: 1px solid black !important;
+}
+
+/*FIM DAS DEFINIÇÕES GERAIS*/
+
+/*ÁREA DE LOGIN*/
+
+.box-shadow {
+	-webkit-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);
+}
+
+/*FIM DA ÁREA DE LOGIN*/
+
+#topo h4 {
+	font-size: 14px;
+	color: #fff;
+	font-weight: 500;
+}
+
+/*ÍCONES*/
+.fa-facebook {
+	color: #000;
+}
+
+.fa-instagram {
+	color: #000;
+}
+
+.fa-whatsapp {
+	color: #000;
+}
+
+/*HOVER DOS ÍCONES*/
+.fa-facebook:hover {
+	color: #3b5998 !important;
+}
+
+.fa-instagram:hover {
+	color: #DD2A7B !important;
+}
+
+.fa-whatsapp:hover {
+	color: #25d366 !important;
+}
+
+/*BOTÃO PESQUISAR BARRA DE PESQUISA*/
+#btn-search {
+	color: #000;
+	text-decoration: none;
+}
+
+/*BOTÃO DE LOGIN*/
+#btn-login {
+	padding: 10px 20px;
+	border: 1px solid #121734;
+	border-radius: 20px;
+}
+
+/*AREA DE PROMOÇÃO PRINCIPAL*/
+#promo {
+	background-color: #121734;
+}
+
+#promo #btn-promo {
+	padding: 10px 30px;
+	border: 1px solid #fff;
+	border-radius: 20px;
+	color: #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+#promo #btn-promo:hover {
+	color: #000;
+	background-color: #fff;
+	transition: .5s; 
+}
+
+/*NEWSLETTER*/
+#newsletter {
+	background-color: #41295a;
+}
+
+/*PÁGINA DE CONTATO*/
+#box-contact h2, #box-contact p {
+	margin-top: 80px;
+}
+
+#box-contact p {
+	margin-bottom: 80px;
+}
+
+#box-contact span{
+ 	padding: 5px 5px;
+ 	background: rgb(103,61,205);
+	background: linear-gradient(48deg, rgba(103,61,205,1) 0%, rgba(212,36,117,1) 35%, rgba(229,45,89,1) 69%, rgba(254,192,83,1) 100%);
+	color: white;
+	margin-top: 20px !important;
+ }
+  /*rodape*/
+#btn-contact-footer {
+	padding: 12px 36px;
+	border-radius: 20px;
+	background-color: #41295a;
+	color: white;
+	margin-top: 20px;
+	text-decoration: none;
+	transition: .5s;
+}
+
+#btn-contact-footer:hover {
+	background-color: #000;
+	transition: .5s;
+}
+
+@media (max-width: 768px) {
+	#smartphone {
+		display: none;
+	}
+}
