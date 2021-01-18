@@ -17,6 +17,7 @@ try {
 //    $senha = md5("123");
 
     include "conexao.php";
+    session_start();
     $con = new Conexao();
     $con = $con->conectar();
 
@@ -31,7 +32,6 @@ try {
             $sth->execute([$email]);
             $result = $sth->fetch();
             if ($result['senha_cliente']) {
-                session_start();
                 $_SESSION['usuario'] = $result['nome'];
                 header('Location: produtos.php');
             } else {
