@@ -13,25 +13,16 @@ include "cabecalho-produtos.php";
             $conexao = $conexao->conectar();
 
             if (!isset($_GET['busca'])) {
-                $query = 'select 
-									*
-					 			from 
-					 				produtos
-					 			inner join
-					 				imagens on produtos.id_imagem = imagens.id_imagem;';
+                $query = 'select * from produtos inner join '
+                        . 'imagens on produtos.id_imagem = imagens.id_imagem;';
                 $stmt = $conexao->prepare($query);
                 $stmt->execute();
                 $produtos = $stmt->fetchAll(PDO::FETCH_OBJ);
             } else {
                 $pesquisa = $_GET['busca'];
-                $query = "select 
-									*
-						 		from 
-						 			produtos
-						 		inner join
-						 			imagens on produtos.id_imagem = imagens.id_imagem
-						 		where
-						 			produtos.nome_produto like '%$pesquisa%';";
+                $query = "select * from	produtos inner join imagens on "
+                        . "produtos.id_imagem = imagens.id_imagem where"
+                        . "produtos.nome_produto like '%$pesquisa%';";
 
                 $stmt = $conexao->prepare($query);
                 //$stmt->bindValue(':?', $pesquisa);
@@ -41,8 +32,8 @@ include "cabecalho-produtos.php";
 
                 if (!$count) {
                     echo "<h3 class='text-danger lead mt-5 mb-5' style='margin-left: 30%'>
-										Ops! Não conseguimos encontrar sua busca :/
-									 </h3>";
+				Ops! Não conseguimos encontrar sua busca :/
+			</h3>";
                 }
             }
             ?>
@@ -56,7 +47,7 @@ include "cabecalho-produtos.php";
                                 <div class="card-body">
                                     <h5 class="card-title lead" style="font-size: 14px"><?php echo $produto->nome_produto ?></h5>
                                     <h6><strong><?php echo 'R$' . $produto->preco_final ?></strong></h6>
-                                    <a href="">
+                                    <a href="finalizar.php?item=<?php echo $produto->id_produto;?>&acao=inProdCar">
                                         <i class="fal fa-shopping-cart text-dark mt-3"></i>
                                     </a>
                                 </div>

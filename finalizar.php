@@ -22,6 +22,9 @@ try {
     $con = $con->conectar();
 
     switch ($_POST['acao']) {
+        case 'inProdCar':
+
+            break;
         case 'login':
             $senha = md5($_POST['senha']);
             $email = $_POST['email'];
@@ -72,7 +75,45 @@ try {
             }
             break;
         default :
-            echo 'não deveria estar aqui, isso é um erro no switch case vacilão';
+            switch ($_GET['acao']) {
+                case 'inProdCar':
+//
+//                    $query = "INSERT INTO `pedidos` (`id_pedido`, `valor_total`,"
+//                            . " `quantidade`, `data_pedido`, `status_pedido`,"
+//                            . " `forma_pagamento`) VALUES (NULL, '58', '1',"
+//                            . " '2021-01-18', 'carrinho', 'boleto');";
+//
+//                    $query = "INSERT INTO pedidos (`id_pedido`, `valor_total`,"
+//                            . " `quantidade`, `data_pedido`, `status_pedido`,"
+//                            . " `forma_pagamento`) VALUES (NULL, ?, ?, ?, ?, ?)";
+//
+//                    $sth = $con->prepare(['']);
+//
+//                    $query = "SELECT * FROM produtos WHERE id_produto = " . $_GET['item'];
+//                    $sth = $con->prepare();
+//                    $sth->execute();
+//                    $result->fech();
+//
+//                    
+
+                    if (isset($_COOKIE['carrinho'])) {
+                        $carrinho = unserialize($_COOKIE['carrinho']);
+                        $carrinho[] = $_GET['item'];
+                        setcookie('carrinho', serialize($carrinho), time() + (86400 * 7));
+                        header('Location: carrinho.php');
+                    } else {
+                        $carrinho[] = $_GET['item'];
+                        setcookie('carrinho', serialize($carrinho), time() + (86400 * 7));
+                        header('Location: carrinho.php');
+                    }
+
+                    
+                    break;
+                default :
+                    echo 'não deveria estar aqui, isso é um erro no switch case vacilão';
+                    header('Location: index.php');
+                    break;
+            }
             break;
     }
 } catch (Exception $e) {

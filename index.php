@@ -1,5 +1,6 @@
 <?php
-require_once("cabecalho-index.php");
+//require("cabecalho-index.php");
+echo "EM OBRAS: cabecalho-index.php <br>HOMENS TRABALHANDO!";
 ?>
 
 <main style="background-color: #41295a">
