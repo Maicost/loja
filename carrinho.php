@@ -1,44 +1,46 @@
 <?php
-
 include "cabecalho-produtos.php";
 include "conexao.php";
 
-$con = new Conexao();
-$con = $con->conectar();
-
-$carrinho = unserialize($_COOKIE['carrinho']);
-
-foreach ($carrinho as $id_produto){
-    $query = "SELECT * FROM `produtos` WHERE id_produto = ?";
-    $sth = $con->prepare($query);
-    $sth->execute([$id_produto]);
-    $result = $sth->fetch();
-    echo " Nome: " .$result['nome_produto'];
-    echo " Preço: ".$result['preco_final'];
+session_start();
+if (!isset($_SESSION['usuario'])) {
     ?>
-    <!doctype html>
-    <html>
-        <body>
-        <header> 
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        </header>
-            <input type="=number" value="1">
-            <button id="<?php echo $id_produto; ?>">
-                Deletar
-                <script>
-                    //captura id do botão clicado para deletar
-                    $("button").click(function(){
-                     var t = $(this).attr('id');
-                     deletarProduto();
-                    });
-                </script>
-            </button>
+    <script> alert('Por favor efetuar login');</script>
+    <?php
+    header('Location: longin.php');
+} else {
+    $con = new Conexao();
+    $con = $con->conectar();
+
+    $carrinho = unserialize($_COOKIE['carrinho']);
+
+    foreach ($carrinho as $id_produto) {
+        $query = "SELECT * FROM `produtos` WHERE id_produto = ?";
+        $sth = $con->prepare($query);
+        $sth->execute([$id_produto]);
+        $result = $sth->fetch();
+        ?>
+        <!doctype html>
+        <html>
+            <body>
+            <head> 
+            </head>
+            <form method="POST" action="finalizar.php">
+                <input type="=number" value="1" id="<?php echo $id_produto; ?>">
+                <h1>Produto: <?php echo'' . $result['nome_produto']; ?></h1>
+                <h1>Preço: <?php echo '' . $result['preco_final']; ?></h1>
+                <input type="hidden" name="produto" value="<?php echo $id_produto; ?>">
+                <input type="hidden" name="acao" value="deletar">
+                <button type="submit"> Deletar </button>
+            </form>
         </body>
-    </html>
-<?php
-    echo "<br>";
-    
-    function deletarProduto(){
-        
+        </html>
+        <?php
+        echo "<br>";
     }
-}
+    ?>
+    <button>
+        <a href="formaPagamento.php">COMPRAR</a>
+    </button>
+    <?php
+}   
