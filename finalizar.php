@@ -22,8 +22,30 @@ try {
     $con = $con->conectar();
 
     switch ($_POST['acao']) {
-        case 'inProdCar':
-
+        case 'comprar':
+            switch ($_POST['formaPag']){
+                case 'boleto':                
+                    echo 'boleto';
+                    break;
+                case 'debitoMaster':
+                    echo 'debito';
+                    break;
+                case 'creditoMaster':
+                    echo 'credito';
+                    break;
+            }
+            break;        
+        case 'deletar':
+            $carrinho = unserialize($_COOKIE['carrinho']);
+            $count = 0;
+            foreach ($carrinho as $index => $produto) {
+                $count++;
+                if ($produto == $_POST['produto']) {
+                    unset($carrinho[$index]);
+                }
+                setcookie('carrinho', serialize($carrinho), time() + (86400 * 7));
+                header('Location: carrinho.php');
+            }
             break;
         case 'login':
             $senha = md5($_POST['senha']);
@@ -77,25 +99,6 @@ try {
         default :
             switch ($_GET['acao']) {
                 case 'inProdCar':
-//
-//                    $query = "INSERT INTO `pedidos` (`id_pedido`, `valor_total`,"
-//                            . " `quantidade`, `data_pedido`, `status_pedido`,"
-//                            . " `forma_pagamento`) VALUES (NULL, '58', '1',"
-//                            . " '2021-01-18', 'carrinho', 'boleto');";
-//
-//                    $query = "INSERT INTO pedidos (`id_pedido`, `valor_total`,"
-//                            . " `quantidade`, `data_pedido`, `status_pedido`,"
-//                            . " `forma_pagamento`) VALUES (NULL, ?, ?, ?, ?, ?)";
-//
-//                    $sth = $con->prepare(['']);
-//
-//                    $query = "SELECT * FROM produtos WHERE id_produto = " . $_GET['item'];
-//                    $sth = $con->prepare();
-//                    $sth->execute();
-//                    $result->fech();
-//
-//                    
-
                     if (isset($_COOKIE['carrinho'])) {
                         $carrinho = unserialize($_COOKIE['carrinho']);
                         $carrinho[] = $_GET['item'];
@@ -106,8 +109,6 @@ try {
                         setcookie('carrinho', serialize($carrinho), time() + (86400 * 7));
                         header('Location: carrinho.php');
                     }
-
-                    
                     break;
                 default :
                     echo 'não deveria estar aqui, isso é um erro no switch case vacilão';

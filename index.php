@@ -1,6 +1,7 @@
 <?php
 //require("cabecalho-index.php");
 echo "EM OBRAS: cabecalho-index.php <br>HOMENS TRABALHANDO!";
+header("Location: produtos.php");
 ?>
 
 <main style="background-color: #41295a">
