@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 21/01/2021 às 16:28
+-- Tempo de geração: 24/01/2021 às 22:31
 -- Versão do servidor: 10.3.25-MariaDB-0ubuntu0.20.04.1
 -- Versão do PHP: 7.4.3
 
@@ -76,44 +76,10 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`cpf`, `nome`, `nascimento`, `email`, `telefone`, `cep`, `senha_cliente`) VALUES
 ('07535601085', 'João da silva', '1986-12-04', 'joao_silva@gmail.com', '999999999', '97090999', '93446228624a8510089df08ab55d8302'),
+('12345678901', 'marilia', '2021-08-12', 'email@teste.com', '123456789012', '12120000', '25d55ad283aa400af464c76d713c07ad'),
 ('25698703465', 'Pedro da silveira', '1996-12-17', 'pedro_silveira@gmail.com', '777777777', '97090777', 'f1952dcb1d742bd3c497a0c2bc5adca3'),
 ('78459831025', 'Maria Costa', '1987-04-28', 'maria_costa@gmail.com', '888888888', '97090888', 'a7d65063111122f800e29719bbefc28a'),
 ('78459831035', 'maico', '1987-04-28', 'maico@gmail.com', '999999999', '97190000', '202cb962ac59075b964b07152d234b70');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `cliente_pedido`
---
-
-CREATE TABLE `cliente_pedido` (
-  `id_cliente_pedido` int(11) NOT NULL,
-  `cpf` varchar(15) NOT NULL,
-  `id_pedido` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `compra_finalizada`
---
-
-CREATE TABLE `compra_finalizada` (
-  `id_compra_finalizada` int(11) NOT NULL,
-  `data_compra` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `compra_pedido`
---
-
-CREATE TABLE `compra_pedido` (
-  `id_compra_pedido` int(11) NOT NULL,
-  `id_compra_finalizada` int(11) NOT NULL,
-  `id_pedido` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -220,19 +186,25 @@ INSERT INTO `imagens` (`id_imagem`, `nome_imagem`) VALUES
 
 CREATE TABLE `pedidos` (
   `id_pedido` int(11) NOT NULL,
-  `valor_total` varchar(15) NOT NULL,
-  `quantidade` int(11) NOT NULL,
-  `data_pedido` date NOT NULL,
-  `status_pedido` varchar(20) NOT NULL,
+  `id_cliente` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `quantidade_prod` int(11) NOT NULL,
+  `status` varchar(30) NOT NULL,
   `forma_pagamento` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Despejando dados para a tabela `pedidos`
 --
 
-INSERT INTO `pedidos` (`id_pedido`, `valor_total`, `quantidade`, `data_pedido`, `status_pedido`, `forma_pagamento`) VALUES
-(1, '58', 1, '2021-01-18', 'carrinho', 'boleto');
+INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_produto`, `quantidade_prod`, `status`, `forma_pagamento`) VALUES
+(38, '12345678901', 74, 1, 'pendente', 'boleto'),
+(39, '12345678901', 78, 1, 'pendente', 'boleto'),
+(40, '12345678901', 74, 1, 'pendente', 'boleto'),
+(41, '12345678901', 73, 1, 'pendente', 'debito_master'),
+(42, '12345678901', 72, 1, 'pendente', 'credito_master'),
+(43, '12345678901', 73, 1, 'pendente', 'boleto'),
+(44, '12345678901', 76, 1, 'pendente', 'boleto');
 
 -- --------------------------------------------------------
 
@@ -289,18 +261,6 @@ INSERT INTO `produtos` (`id_produto`, `nome_produto`, `cod_produto`, `descricao`
 (102, 'HDD 500GB WD', '000030', 'Marca: WD\n Modelo: WD5000LPCX\n Interface: SATA 6 Gb/s (LPVX, LPCX)\n RPM: 5400\n  Capacidade: 500GB\n Taxas de transferência de dados ( velocidade da interface): 6 Gb/s\n Cache: 16MB\n Latência média: 5.5 ms', 203.56, 290.55, '11111111000101', 2, 30, 1),
 (103, 'SSD WD GREEN 240GB', '000031', 'Marca: Western Digital\n Modelo: WDS240G2G0A\n Capacidade: 240GB\n Interface: SATA III 6Gb s\n Leituras: 545MB/s\n Gravações: 465MB/s\n Leitura sequencial até: 545Mb/s', 195.56, 295.89, '11111111000101', 8, 31, 1);
 
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `produto_pedido`
---
-
-CREATE TABLE `produto_pedido` (
-  `id_produto_pedido` int(11) NOT NULL,
-  `id_pedido` int(11) NOT NULL,
-  `id_produto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Índices de tabelas apagadas
 --
@@ -322,28 +282,6 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`cpf`);
-
---
--- Índices de tabela `cliente_pedido`
---
-ALTER TABLE `cliente_pedido`
-  ADD PRIMARY KEY (`id_cliente_pedido`),
-  ADD KEY `cpf` (`cpf`),
-  ADD KEY `id_pedido` (`id_pedido`);
-
---
--- Índices de tabela `compra_finalizada`
---
-ALTER TABLE `compra_finalizada`
-  ADD PRIMARY KEY (`id_compra_finalizada`);
-
---
--- Índices de tabela `compra_pedido`
---
-ALTER TABLE `compra_pedido`
-  ADD PRIMARY KEY (`id_compra_pedido`),
-  ADD KEY `id_compra_finalizada` (`id_compra_finalizada`),
-  ADD KEY `id_pedido` (`id_pedido`);
 
 --
 -- Índices de tabela `endereco`
@@ -368,7 +306,9 @@ ALTER TABLE `imagens`
 -- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD PRIMARY KEY (`id_pedido`);
+  ADD PRIMARY KEY (`id_pedido`),
+  ADD KEY `id_produto` (`id_produto`),
+  ADD KEY `id_cliente` (`id_cliente`);
 
 --
 -- Índices de tabela `produtos`
@@ -377,14 +317,6 @@ ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id_produto`),
   ADD KEY `cnpj` (`cnpj`),
   ADD KEY `id_imagem` (`id_imagem`);
-
---
--- Índices de tabela `produto_pedido`
---
-ALTER TABLE `produto_pedido`
-  ADD PRIMARY KEY (`id_produto_pedido`),
-  ADD KEY `id_pedido` (`id_pedido`),
-  ADD KEY `id_produto` (`id_produto`);
 
 --
 -- AUTO_INCREMENT de tabelas apagadas
@@ -397,24 +329,6 @@ ALTER TABLE `categorias`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `cliente_pedido`
---
-ALTER TABLE `cliente_pedido`
-  MODIFY `id_cliente_pedido` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `compra_finalizada`
---
-ALTER TABLE `compra_finalizada`
-  MODIFY `id_compra_finalizada` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `compra_pedido`
---
-ALTER TABLE `compra_pedido`
-  MODIFY `id_compra_pedido` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `imagens`
 --
 ALTER TABLE `imagens`
@@ -424,7 +338,7 @@ ALTER TABLE `imagens`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -433,28 +347,8 @@ ALTER TABLE `produtos`
   MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
--- AUTO_INCREMENT de tabela `produto_pedido`
---
-ALTER TABLE `produto_pedido`
-  MODIFY `id_produto_pedido` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Restrições para dumps de tabelas
 --
-
---
--- Restrições para tabelas `cliente_pedido`
---
-ALTER TABLE `cliente_pedido`
-  ADD CONSTRAINT `cliente_pedido_ibfk_1` FOREIGN KEY (`cpf`) REFERENCES `clientes` (`cpf`),
-  ADD CONSTRAINT `cliente_pedido_ibfk_2` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`);
-
---
--- Restrições para tabelas `compra_pedido`
---
-ALTER TABLE `compra_pedido`
-  ADD CONSTRAINT `compra_pedido_ibfk_1` FOREIGN KEY (`id_compra_finalizada`) REFERENCES `compra_finalizada` (`id_compra_finalizada`),
-  ADD CONSTRAINT `compra_pedido_ibfk_2` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`);
 
 --
 -- Restrições para tabelas `fornecedores`
@@ -463,18 +357,18 @@ ALTER TABLE `fornecedores`
   ADD CONSTRAINT `fornecedores_ibfk_1` FOREIGN KEY (`cep`) REFERENCES `endereco` (`cep`);
 
 --
+-- Restrições para tabelas `pedidos`
+--
+ALTER TABLE `pedidos`
+  ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`),
+  ADD CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`cpf`);
+
+--
 -- Restrições para tabelas `produtos`
 --
 ALTER TABLE `produtos`
   ADD CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`cnpj`) REFERENCES `fornecedores` (`cnpj`),
   ADD CONSTRAINT `produtos_ibfk_2` FOREIGN KEY (`id_imagem`) REFERENCES `imagens` (`id_imagem`);
-
---
--- Restrições para tabelas `produto_pedido`
---
-ALTER TABLE `produto_pedido`
-  ADD CONSTRAINT `produto_pedido_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
-  ADD CONSTRAINT `produto_pedido_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
