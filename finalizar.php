@@ -1,49 +1,146 @@
 <?php
 
 try {
-//
-//variaveis teste
-//    $nome = "maico";
-//    $cpf = "78459831035";
-//    $data = "1987-04-28";
-//    $email = "maico@gmail.com";
-//    $telefone = "999999999";
-//    $rua = "Rua 8";
-//    $bairro = "centro";
-//    $cep = "97190000";
-//    $cidade = "Cidade dos loco";
-//    $estado = "Rio Grande do Sul";
-//    $n = "1234";
-//    $senha = md5("123");
-
     include "conexao.php";
     session_start();
     $con = new Conexao();
     $con = $con->conectar();
 
+    $id_produto = "id_produto"; //id dos produtos na tabela produtos
+
     switch ($_POST['acao']) {
         case 'comprar':
-            switch ($_POST['formaPag']){
-                case 'boleto':                
-                    echo 'boleto';
+            switch ($_POST['formaPag']) {
+                case 'boleto':
+                    session_start();
+                    $usuario = $_SESSION['usuario'];
+                    $carrinho = unserialize($_COOKIE["$usuario"]);
+                    foreach ($carrinho as $index => $produto) {
+                        $count = 0;
+                        foreach ($carrinho as $ind => $prod) {
+                            if ($produto == $prod) {
+                                $count++;
+                                unset($carrinho[$ind]);
+                            }
+                        }
+
+                        $sql = "SELECT * FROM produtos WHERE $id_produto = $produto";
+                        $sth = $con->prepare($sql);
+                        $sth->execute();
+                        $resultProduto = $sth->fetch(PDO::FETCH_OBJ);
+
+                        session_start();
+                        $nome = $_SESSION['usuario'];
+                        $sql = "SELECT cpf FROM clientes WHERE nome = \"$nome\"";
+                        $sth = $con->prepare($sql);
+                        $sth->execute();
+                        $resultUsuario = $sth->fetch(PDO::FETCH_OBJ);
+
+                        if ($count > 0) {
+                            $status = "pendente";
+                            $forma_pagamento = "boleto";
+                            $sql = "INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_produto`, `quantidade_prod`, `status`, `forma_pagamento`) "
+                                    . "VALUES (NULL, $resultUsuario->cpf, $resultProduto->id_produto, $count, \"$status\", \"$forma_pagamento\")";
+
+                            $sth = $con->prepare($sql);
+                            $sth->execute();
+                        }
+                    }
+                    unset($_COOKIE[$usuario]);
+                    setcookie($usuario, null, -1);
+                    header("Location: index.php");
                     break;
+
                 case 'debitoMaster':
-                    echo 'debito';
+                    session_start();
+                    $usuario = $_SESSION['usuario'];
+                    $carrinho = unserialize($_COOKIE["$usuario"]);
+                    foreach ($carrinho as $index => $produto) {
+                        $count = 0;
+                        foreach ($carrinho as $ind => $prod) {
+                            if ($produto == $prod) {
+                                $count++;
+                                unset($carrinho[$ind]);
+                            }
+                        }
+
+                        $sql = "SELECT * FROM produtos WHERE $id_produto = $produto";
+                        $sth = $con->prepare($sql);
+                        $sth->execute();
+                        $resultProduto = $sth->fetch(PDO::FETCH_OBJ);
+
+                        session_start();
+                        $nome = $_SESSION['usuario'];
+                        $sql = "SELECT cpf FROM clientes WHERE nome = \"$nome\"";
+                        $sth = $con->prepare($sql);
+                        $sth->execute();
+                        $resultUsuario = $sth->fetch(PDO::FETCH_OBJ);
+
+                        if ($count > 0) {
+                            $status = "pendente";
+                            $forma_pagamento = "debito_master";
+                            $sql = "INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_produto`, `quantidade_prod`, `status`, `forma_pagamento`) "
+                                    . "VALUES (NULL, $resultUsuario->cpf, $resultProduto->id_produto, $count, \"$status\", \"$forma_pagamento\")";
+
+                            $sth = $con->prepare($sql);
+                            $sth->execute();
+                        }
+                    }
+                    unset($_COOKIE[$usuario]);
+                    setcookie($usuario, null, -1);
+                    header("Location: index.php");
                     break;
                 case 'creditoMaster':
-                    echo 'credito';
+                                        session_start();
+                    $usuario = $_SESSION['usuario'];
+                    $carrinho = unserialize($_COOKIE["$usuario"]);
+                    foreach ($carrinho as $index => $produto) {
+                        $count = 0;
+                        foreach ($carrinho as $ind => $prod) {
+                            if ($produto == $prod) {
+                                $count++;
+                                unset($carrinho[$ind]);
+                            }
+                        }
+
+                        $sql = "SELECT * FROM produtos WHERE $id_produto = $produto";
+                        $sth = $con->prepare($sql);
+                        $sth->execute();
+                        $resultProduto = $sth->fetch(PDO::FETCH_OBJ);
+
+                        session_start();
+                        $nome = $_SESSION['usuario'];
+                        $sql = "SELECT cpf FROM clientes WHERE nome = \"$nome\"";
+                        $sth = $con->prepare($sql);
+                        $sth->execute();
+                        $resultUsuario = $sth->fetch(PDO::FETCH_OBJ);
+
+                        if ($count > 0) {
+                            $status = "pendente";
+                            $forma_pagamento = "credito_master";
+                            $sql = "INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_produto`, `quantidade_prod`, `status`, `forma_pagamento`) "
+                                    . "VALUES (NULL, $resultUsuario->cpf, $resultProduto->id_produto, $count, \"$status\", \"$forma_pagamento\")";
+
+                            $sth = $con->prepare($sql);
+                            $sth->execute();
+                        }
+                    }
+                    unset($_COOKIE[$usuario]);
+                    setcookie($usuario, null, -1);
+                    header("Location: index.php");
                     break;
             }
-            break;        
+            break;
         case 'deletar':
-            $carrinho = unserialize($_COOKIE['carrinho']);
+            $usuario = $_SESSION['usuario'];
+            $carrinho = unserialize($_COOKIE["$usuario"]);
             $count = 0;
             foreach ($carrinho as $index => $produto) {
                 $count++;
                 if ($produto == $_POST['produto']) {
                     unset($carrinho[$index]);
                 }
-                setcookie('carrinho', serialize($carrinho), time() + (86400 * 7));
+                setcookie($usuario, serialize($carrinho), time() + (86400 * 7));
                 header('Location: carrinho.php');
             }
             break;
@@ -99,14 +196,16 @@ try {
         default :
             switch ($_GET['acao']) {
                 case 'inProdCar':
-                    if (isset($_COOKIE['carrinho'])) {
-                        $carrinho = unserialize($_COOKIE['carrinho']);
+                    session_start();
+                    $usuario = $_SESSION['usuario'];
+                    if (isset($_COOKIE["$usuario"])) {
+                        $carrinho = unserialize($_COOKIE["$usuario"]);
                         $carrinho[] = $_GET['item'];
-                        setcookie('carrinho', serialize($carrinho), time() + (86400 * 7));
+                        setcookie($usuario, serialize($carrinho), time() + (86400 * 7));
                         header('Location: carrinho.php');
                     } else {
                         $carrinho[] = $_GET['item'];
-                        setcookie('carrinho', serialize($carrinho), time() + (86400 * 7));
+                        setcookie($usuario, serialize($carrinho), time() + (86400 * 7));
                         header('Location: carrinho.php');
                     }
                     break;
