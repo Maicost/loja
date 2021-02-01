@@ -14,14 +14,8 @@ if (isset($_GET['item'])) {
 } else {
     $categoria = $_GET['cat'];
 
-    $query = "select 
-					* 
-				 from 
-				 	produtos
-				 inner join
-					imagens on produtos.id_imagem = imagens.id_imagem
-				 where 
-					categoria = $categoria;";
+    $query = "select * from produtos inner join 
+        imagens on produtos.id_imagem = imagens.id_imagem where categoria = $categoria;";
 }
 
 $stmt = $conexao->prepare($query);
@@ -39,16 +33,29 @@ $produtos = $stmt->fetchAll(PDO::FETCH_OBJ);
                 </div>
                 <h5 class="mt-5 mb-5 ml-5 text-center"><strong>Descrição</strong></h5>
                 <pre style="font-size: 14px;overflow-y: hidden" class="mb-5">
-<?php echo $produtos[0]->descricao ?>
+                    <?php echo $produtos[0]->descricao ?>
                 </pre>
             </div>
             <div class="col-md-4">
-<?php if ($produtos[0]->preco_final > 100) { ?>
-                    <span class="text-success" style="margin-left: 40%">
+                <?php if ($produtos[0]->preco_final > 100) { ?>
+                    <span class="text-success">
                         <i class="fal fa-truck mt-5 mb-5 mr-2"></i> Frete Grátis
+                        <div>
+                            <a href="finalizar.php?item=<?php echo $id_produto; ?>&acao=inProdCar">
+                                <i class="fal fa-shopping-cart text-dark mt-3"></i>
+                                 Adicionar ao Carrinho
+                            </a>
+                        </div>
+
                     </span>
-<?php } else { ?>
-                    <h5 style="color: #41295a;margin-left: 50%; font-size: 36px;" class="mt-5 mb-5"><strong><?php echo 'R$ ' . $produtos[0]->preco_final ?></strong></h5>
+                <?php } else { ?>
+                    <span>
+                        <h5 style="color: #41295a;margin-left: 50%; font-size: 36px;" class="mt-5 mb-5"><strong><?php echo 'R$ ' . $produtos[0]->preco_final ?></strong></h5>
+                        <a href="finalizar.php?item=<?php echo $id_produto; ?>&acao=inProdCar">
+                            <i class="fal fa-shopping-cart text-dark mt-3"></i>
+                             Adicionar ao Carrinho
+                        </a>
+                    </span>
                 <?php } ?>
             </div>
         </div>

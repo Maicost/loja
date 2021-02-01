@@ -91,7 +91,7 @@ try {
                     header("Location: index.php");
                     break;
                 case 'creditoMaster':
-                                        session_start();
+                    session_start();
                     $usuario = $_SESSION['usuario'];
                     $carrinho = unserialize($_COOKIE["$usuario"]);
                     foreach ($carrinho as $index => $produto) {

@@ -190,12 +190,13 @@ session_start();
                             <div class="d-flex justify-content-center mt-3">
                                 <a href="login.php" class="nav-link text-light">
                                     <i class="fal fa-user text-light mr-1"></i>
-                                    <?php 
+                                    <?php
                                     if ($_SESSION['usuario']) {
                                         echo $_SESSION['usuario'];
                                     } else {
                                         echo 'Entrar';
-                                    } ?>
+                                    }
+                                    ?>
                                 </a>
                                 <a href="carrinho.php" class="nav-link">
                                     <i class="fal fa-shopping-cart text-light ml-3"></i>

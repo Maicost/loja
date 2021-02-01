@@ -4,8 +4,9 @@ session_start();
 if (!$_SESSION['usuario']) {
     unset($_SESSION['usuario']);
     header('Location: index.php');
-}else{
+} else {
     ?>
-<script> alert('login   '); </script>
-<?php
+    <script> alert('login   ');</script>
+    <?php
+
 }
